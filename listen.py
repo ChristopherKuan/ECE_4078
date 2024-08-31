@@ -42,6 +42,7 @@ def move_robot():
         else:
             if (motion == 'stop') or (motion == 'turning'):
                 if milestone == 4:
+                    pibot.value = (-5, -5)
                     pass
                 else:
                     pibot.value = (left_speed, right_speed) 
