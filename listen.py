@@ -123,6 +123,7 @@ ki = 0
 kd = 0
 left_speed, right_speed = 0, 0
 motion = ''
+milestone = 0
 
 # Initialize the PiCamera
 picam2 = Picamera2()
