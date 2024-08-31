@@ -88,7 +88,7 @@ def capture_image():
 def move():
     global left_speed, right_speed, motion, milstone
     left_speed, right_speed, milestone = float(request.args.get('left_speed')), float(request.args.get('right_speed'), int(request.args.get('milestone'))
-    
+    print(milestone)
     if (left_speed == 0 and right_speed == 0):
         motion = 'stop'
     elif (left_speed != right_speed ):
@@ -97,7 +97,7 @@ def move():
         motion = 'forward'
     elif (left_speed < 0 and right_speed < 0):
         motion = 'backward'
-    return motion
+    return motion, milestone
     
     # if 'time' in request.args:
 
