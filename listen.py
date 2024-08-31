@@ -42,13 +42,13 @@ def move_robot():
         else:
             if (motion == 'stop') or (motion == 'turning'):
                 if milestone == 4:
-                    pibot.value = (-5, -5)
-                    pass
-                else:
-                    pibot.value = (left_speed, right_speed) 
-                    left_encoder.reset()
-                    right_encoder.reset()
-                    flag_new_pid_cycle = True          
+                    left_speed, right_speed = abs(left_speed), abs(right_speed)
+                    pibot.value = (-left_speed, -right_speed)
+                # else:
+                #     pibot.value = (left_speed, right_speed) 
+                #     left_encoder.reset()
+                #     right_encoder.reset()
+                #     flag_new_pid_cycle = True          
             else:
                 left_speed, right_speed = abs(left_speed), abs(right_speed)
                 if flag_new_pid_cycle:
