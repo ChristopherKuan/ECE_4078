@@ -50,6 +50,9 @@ def move_robot():
                     elif motion == 'turning':
                         left_encoder.reset()
                         right_encoder.reset()
+                        pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=right_speed)
+                        pid_right.setpoint = left_encoder.value
+                        right_speed = pid_right(right_encoder.value)
                         while left_encoder.value < 17:
                             pibot.value = (left_speed, right_speed) 
                             print(left_encoder.value, right_encoder.value)
