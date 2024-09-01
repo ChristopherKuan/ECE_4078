@@ -55,7 +55,7 @@ def move_robot():
                                 pibot.value = (left_speed, 0) 
                             elif left_encoder.value > right_encoder.value:
                                 pibot.value = (0, right_speed) 
-                            elif left_encoder.value < right_encoder.value:
+                            elif left_encoder.value == right_encoder.value:
                                 pibot.value = (left_speed, right_speed) 
                             print(left_encoder.value, right_encoder.value)
                         pibot.value = (0, 0)
