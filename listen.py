@@ -54,8 +54,8 @@ def move_robot():
                         flag_new_pid_cycle = True
                 else:
                     pibot.value = (left_speed, right_speed)
-                    print(left_encoder)
-                    print(right_encoder)
+                    print(left_encoder.value)
+                    print(right_encoder.value)
                     left_encoder.reset()
                     right_encoder.reset()
                     flag_new_pid_cycle = True          
