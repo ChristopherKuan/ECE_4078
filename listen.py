@@ -47,7 +47,7 @@ def move_robot():
                         left_encoder.reset()
                         right_encoder.reset()
                         flag_new_pid_cycle = True
-                    elif motion == 'turining':
+                    elif motion == 'turning':
                         pibot.value = (0, 0) 
                         left_encoder.reset()
                         right_encoder.reset()
@@ -58,7 +58,7 @@ def move_robot():
                         left_encoder.reset()
                         right_encoder.reset()
                         flag_new_pid_cycle = True
-                    elif motion == 'turining':
+                    elif motion == 'turning':
                         pibot.value = (left_speed, right_speed)
                         print(left_encoder.value)
                         print(right_encoder.value)
