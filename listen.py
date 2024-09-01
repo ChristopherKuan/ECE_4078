@@ -50,14 +50,24 @@ def move_robot():
                     elif motion == 'turning':
                         left_encoder.reset()
                         right_encoder.reset()
-                        while left_encoder.value < 17:
-                            if left_encoder.value < right_encoder.value:
-                                pibot.value = (left_speed, 0) 
-                            elif left_encoder.value > right_encoder.value:
-                                pibot.value = (0, right_speed) 
-                            elif left_encoder.value == right_encoder.value:
-                                pibot.value = (left_speed, right_speed) 
-                            print(left_encoder.value, right_encoder.value)
+                        if left_speed < right_speed: # turn left
+                            while left_encoder.value < 17:
+                                if left_encoder.value < right_encoder.value:
+                                    pibot.value = (left_speed, 0) 
+                                elif left_encoder.value > right_encoder.value:
+                                    pibot.value = (0, right_speed) 
+                                elif left_encoder.value == right_encoder.value:
+                                    pibot.value = (left_speed, right_speed) 
+                                print(left_encoder.value, right_encoder.value)
+                        else:    # turn right
+                            while left_encoder.value < 20:
+                                if left_encoder.value < right_encoder.value:
+                                    pibot.value = (left_speed, 0) 
+                                elif left_encoder.value > right_encoder.value:
+                                    pibot.value = (0, right_speed) 
+                                elif left_encoder.value == right_encoder.value:
+                                    pibot.value = (left_speed, right_speed) 
+                                print(left_encoder.value, right_encoder.value)
                         pibot.value = (0, 0)
                         left_encoder.reset()
                         right_encoder.reset()
