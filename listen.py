@@ -51,7 +51,7 @@ def move_robot():
                         left_encoder.reset()
                         right_encoder.reset()
                         if left_speed < right_speed: # turn left
-                            while left_encoder.value < 16:
+                            while left_encoder.value < 20:
                                 if left_encoder.value < right_encoder.value:
                                     pibot.value = (left_speed, 0) 
                                 elif left_encoder.value > right_encoder.value:
@@ -60,7 +60,7 @@ def move_robot():
                                     pibot.value = (left_speed, right_speed) 
                                 print(left_encoder.value, right_encoder.value)
                         else:    # turn right
-                            while left_encoder.value < 16:
+                            while right_encoder.value < 20:
                                 if left_encoder.value < right_encoder.value:
                                     pibot.value = (left_speed, 0) 
                                 elif left_encoder.value > right_encoder.value:
