@@ -48,46 +48,57 @@ def move_robot():
                         right_encoder.reset()
                         flag_new_pid_cycle = True
                     elif motion == 'turning':
-                        if left_speed > right_speed:
-                            dir = "right"
-                        else:
-                            dir = "left"
-                        pid_left = PID(kp, ki, kd, output_limits=(0,1), starting_output=left_speed)
-                        pid_right = PID(kp, ki, kd, output_limits=(0,1), starting_output=right_speed)
-                        flag_new_pid_cycle = False
-                        if dir == "left":
-                            left_speed = pid_left(-left_encoder.value)
-                            right_speed = pid_right(right_encoder.value)
-                            print(left_speed, right_speed)
-                            pibot.value = (-left_speed, right_speed)
-                        else:
-                            left_speed = pid_left(left_encoder.value)
-                            right_speed = pid_right(-right_encoder.value)
-                            print(left_speed, right_speed)
-                            pibot.value = (left_speed, -right_speed)
-                        print(left_encoder.value, right_encoder.value)
-                        # left_encoder.reset()
-                        # right_encoder.reset()
+                        # if left_speed > right_speed:
+                        #     dir = "right"
+                        # else:
+                        #     dir = "left"
+                        # pid_left = PID(kp, ki, kd, output_limits=(0,1), starting_output=left_speed)
+                        # pid_right = PID(kp, ki, kd, output_limits=(0,1), starting_output=right_speed)
+                        # flag_new_pid_cycle = False
+                        # if dir == "left":
+                        #     left_speed = pid_left(-left_encoder.value)
+                        #     right_speed = pid_right(right_encoder.value)
+                        #     print(left_speed, right_speed)
+                        #     pibot.value = (-left_speed, right_speed)
+                        # else:
+                        #     left_speed = pid_left(left_encoder.value)
+                        #     right_speed = pid_right(-right_encoder.value)
+                        #     print(left_speed, right_speed)
+                        #     pibot.value = (left_speed, -right_speed)
+                        # print(left_encoder.value, right_encoder.value)
+                        # # left_encoder.reset()
+                        # # right_encoder.reset()
 
                 
-                        # if left_speed < right_speed: # turn left
-                        #     while left_encoder.value < 20:
-                        #         if left_encoder.value < right_encoder.value:
-                        #             pibot.value = (left_speed, 0) 
-                        #         elif left_encoder.value > right_encoder.value:
-                        #             pibot.value = (0, right_speed) 
-                        #         elif left_encoder.value == right_encoder.value:
-                        #             pibot.value = (left_speed, right_speed) 
-                        #         print(left_encoder.value, right_encoder.value)
-                        # else:    # turn right
-                        #     while right_encoder.value < 20:
-                        #         if left_encoder.value < right_encoder.value:
-                        #             pibot.value = (left_speed, 0) 
-                        #         elif left_encoder.value > right_encoder.value:
-                        #             pibot.value = (0, right_speed) 
-                        #         elif left_encoder.value == right_encoder.value:
-                        #             pibot.value = (left_speed, right_speed) 
-                        #         print(left_encoder.value, right_encoder.value)                   
+                        if left_speed < right_speed: # turn left
+                            while right_encoder.value < 20 or left_encoder.value < 16:
+                                while right_encoder.value < 4:
+                                    pibot.value = (0, right_speed)
+                                    print(left_encoder.value, right_encoder.value)
+
+                                if right_encoder.value >= 20 and left_encoder.value < 16:
+                                    pibot.value = (left_speed, 0)
+                                elif right_encoder.value < 20 and left_encoder.value >= 16:
+                                    pibot.value = (0, right_speed)
+                                elif right_encoder.value - left_encoder.value != 4:
+                                    pibot.value = (right_speed, 0)
+                                else:
+                                    pibot.value = (left_speed, right_speed)
+                                print(left_encoder.value, right_encoder.value)
+                        else:    # turn right
+                            while left_encoder.value < 4:
+                                    pibot.value = (left_speed, 0)
+                                    print(left_encoder.value, right_encoder.value)
+
+                                if left_encoder.value >= 20 and right_encoder.value < 16:
+                                    pibot.value = (0, right_speed)
+                                elif left_encoder.value < 20 and right_encoder.value >= 16:
+                                    pibot.value = (left_speed, 0)
+                                elif left_encoder.value - right_encoder.value != 4:
+                                    pibot.value = (left_speed, 0)
+                                else:
+                                    pibot.value = (left_speed, right_speed)
+                                print(left_encoder.value, right_encoder.value)              
                 else:
                     # if motion == 'stop':
                     #     pibot.value = (left_speed, right_speed) 
