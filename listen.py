@@ -42,42 +42,44 @@ def move_robot():
         else:
             if (motion == 'stop') or (motion == 'turning'):
                 if milestone == 4:
-                    # if motion == 'stop':
-                    #     pibot.value = (left_speed, right_speed) 
-                    #     left_encoder.reset()
-                    #     right_encoder.reset()
-                    #     flag_new_pid_cycle = True
-                    # elif motion == 'turning':
-                    #     left_encoder.reset()
-                    #     right_encoder.reset()
-                    #     if left_speed < right_speed: # turn left
-                    #         while left_encoder.value < 20:
-                    #             if left_encoder.value < right_encoder.value:
-                    #                 pibot.value = (left_speed, 0) 
-                    #             elif left_encoder.value > right_encoder.value:
-                    #                 pibot.value = (0, right_speed) 
-                    #             elif left_encoder.value == right_encoder.value:
-                    #                 pibot.value = (left_speed, right_speed) 
-                    #             print(left_encoder.value, right_encoder.value)
-                    #     else:    # turn right
-                    #         while right_encoder.value < 20:
-                    #             if left_encoder.value < right_encoder.value:
-                    #                 pibot.value = (left_speed, 0) 
-                    #             elif left_encoder.value > right_encoder.value:
-                    #                 pibot.value = (0, right_speed) 
-                    #             elif left_encoder.value == right_encoder.value:
-                    #                 pibot.value = (left_speed, right_speed) 
-                    #             print(left_encoder.value, right_encoder.value)
-                    #     pibot.value = (0, 0)
-                    #     left_encoder.reset()
-                    #     right_encoder.reset()
-                    #     flag_new_pid_cycle = True
-                    pibot.value = (left_speed, right_speed)
-                    print(left_encoder.value)
-                    print(right_encoder.value)
-                    left_encoder.reset()
-                    right_encoder.reset()
-                    flag_new_pid_cycle = True    
+                    if motion == 'stop':
+                        pibot.value = (left_speed, right_speed) 
+                        left_encoder.reset()
+                        right_encoder.reset()
+                        flag_new_pid_cycle = True
+                    elif motion == 'turning':
+                        left_encoder.reset()
+                        right_encoder.reset()
+                        pid_left = PID(kp, ki, kd, output_limits=(0,1), starting_output=left_speed)
+                        pid_right = PID(kp, ki, kd, output_limits=(0,1), starting_output=right_speed)
+                        while left_encoder.value < 20:
+                            left_speed = pid_left(left_speed)
+                            right_speed = pid_right(right_speed)
+                            pibot.value = (left_speed, right_speed)
+                            print(left_encoder.value, right_encoder.value)
+                        # if left_speed < right_speed: # turn left
+                        #     while left_encoder.value < 20:
+                        #         if left_encoder.value < right_encoder.value:
+                        #             pibot.value = (left_speed, 0) 
+                        #         elif left_encoder.value > right_encoder.value:
+                        #             pibot.value = (0, right_speed) 
+                        #         elif left_encoder.value == right_encoder.value:
+                        #             pibot.value = (left_speed, right_speed) 
+                        #         print(left_encoder.value, right_encoder.value)
+                        # else:    # turn right
+                        #     while right_encoder.value < 20:
+                        #         if left_encoder.value < right_encoder.value:
+                        #             pibot.value = (left_speed, 0) 
+                        #         elif left_encoder.value > right_encoder.value:
+                        #             pibot.value = (0, right_speed) 
+                        #         elif left_encoder.value == right_encoder.value:
+                        #             pibot.value = (left_speed, right_speed) 
+                        #         print(left_encoder.value, right_encoder.value)
+                        pibot.value = (0, 0)
+                        left_encoder.reset()
+                        right_encoder.reset()
+                        flag_new_pid_cycle = True
+                      
                 else:
                     # if motion == 'stop':
                     #     pibot.value = (left_speed, right_speed) 
