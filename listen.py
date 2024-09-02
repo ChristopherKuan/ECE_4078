@@ -86,9 +86,10 @@ def move_robot():
                                     pibot.value = (left_speed, right_speed)
                                 print(left_encoder.value, right_encoder.value)
                         else:    # turn right
-                            while left_encoder.value < 4:
-                                    pibot.value = (left_speed, 0)
-                                    print(left_encoder.value, right_encoder.value)
+                            while left_encoder.value < 20 or right_encoder.value < 16:
+                                while left_encoder.value < 4:
+                                        pibot.value = (left_speed, 0)
+                                        print(left_encoder.value, right_encoder.value)
 
                                 if left_encoder.value >= 20 and right_encoder.value < 16:
                                     pibot.value = (0, right_speed)
