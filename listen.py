@@ -62,7 +62,7 @@ def move_robot():
                             pibot.value = (-left_speed, right_speed)
                         else:
                             pid_right.setpoint = left_encoder.value
-                            right_speed = pid_right(-right_encoder.value)
+                            right_speed = pid_right(right_encoder.value)
                             print(left_speed, right_speed)
                             pibot.value = (left_speed, -right_speed)
                         print(left_encoder.value, right_encoder.value)
