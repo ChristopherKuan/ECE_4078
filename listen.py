@@ -53,18 +53,18 @@ def move_robot():
                         else:
                             dir = "left"
                         if flag_new_pid_cycle:
-                            pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=right_speed)
+                            pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(-1,1), starting_output=right_speed)
                             flag_new_pid_cycle = False
                         if dir == "left":
                             pid_right.setpoint = left_encoder.value
                             right_speed = pid_right(right_encoder.value)
                             print(left_speed, right_speed)
-                            pibot.value = (-left_speed, right_speed)
+                            pibot.value = (left_speed, right_speed)
                         else:
                             pid_right.setpoint = left_encoder.value
                             right_speed = pid_right(-right_encoder.value)
-                            print(left_speed, -right_speed)
-                            pibot.value = (left_speed, -right_speed)
+                            print(left_speed, right_speed)
+                            pibot.value = (left_speed, right_speed)
                         print(left_encoder.value, right_encoder.value)
                         # left_encoder.reset()
                         # right_encoder.reset()
