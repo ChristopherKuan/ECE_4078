@@ -59,14 +59,16 @@ def move_robot():
                             flag_new_pid_cycle = False
                     if dir == "left":
                         pid_right.setpoint = left_encoder.value
-                        right_speed = pid_right(right_encoder.value)
-                        print(left_speed, right_speed)
-                        pibot.value = (left_speed, right_speed)
+                        while left_encoder.value < 20:
+                            right_speed = pid_right(right_encoder.value)
+                            print(left_speed, right_speed)
+                            pibot.value = (left_speed, right_speed)
                     else:
                         pid_left.setpoint = right_encoder.value
-                        left_speed = pid_left(left_encoder.value)
-                        print(left_speed, right_speed)
-                        pibot.value = (left_speed, right_speed)
+                        while right_encoder.value < 20:
+                            left_speed = pid_left(left_encoder.value)
+                            print(left_speed, right_speed)
+                            pibot.value = (left_speed, right_speed)
                     print(left_encoder.value, right_encoder.value)
                     # left_encoder.reset()
                     # right_encoder.reset()
