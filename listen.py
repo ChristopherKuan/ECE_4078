@@ -65,8 +65,6 @@ def move_robot():
                         if right_encoder.value >= 20:
                             pibot.value = (0, 0)
                     else:
-                        
-
                         pid_right.setpoint = left_encoder.value
                         right_speed = pid_right(right_encoder.value)
                         print(left_speed, right_speed)
