@@ -41,33 +41,32 @@ def move_robot():
         ### pid only runs when robot moves forward or backward. Turning does not use pid
         else:
             if (motion == 'stop') or (motion == 'turning'):
-                if milestone == 4:
-                    if motion == 'stop':
-                        pibot.value = (left_speed, right_speed) 
-                        left_encoder.reset()
-                        right_encoder.reset()
-                        flag_new_pid_cycle = True
-                    elif motion == 'turning':
-                        if left_speed > right_speed:
-                            dir = "right"
-                        else:
-                            dir = "left"
-                        if flag_new_pid_cycle:
-                            pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(-1,1), starting_output=right_speed)
-                            flag_new_pid_cycle = False
-                        if dir == "left":
-                            pid_right.setpoint = left_encoder.value
-                            right_speed = pid_right(right_encoder.value)
-                            print(left_speed, right_speed)
-                            pibot.value = (left_speed, right_speed)
-                        else:
-                            pid_right.setpoint = left_encoder.value
-                            right_speed = pid_right(-right_encoder.value)
-                            print(left_speed, right_speed)
-                            pibot.value = (left_speed, right_speed)
-                        print(left_encoder.value, right_encoder.value)
-                        # left_encoder.reset()
-                        # right_encoder.reset()
+                if motion == 'stop':
+                    pibot.value = (left_speed, right_speed) 
+                    left_encoder.reset()
+                    right_encoder.reset()
+                    flag_new_pid_cycle = True
+                elif motion == 'turning':
+                    if left_speed > right_speed:
+                        dir = "right"
+                    else:
+                        dir = "left"
+                    if flag_new_pid_cycle:
+                        pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(-1,1), starting_output=right_speed)
+                        flag_new_pid_cycle = False
+                    if dir == "left":
+                        pid_right.setpoint = left_encoder.value
+                        right_speed = pid_right(right_encoder.value)
+                        print(left_speed, right_speed)
+                        pibot.value = (left_speed, right_speed)
+                    else:
+                        pid_right.setpoint = left_encoder.value
+                        right_speed = pid_right(-right_encoder.value)
+                        print(left_speed, right_speed)
+                        pibot.value = (left_speed, right_speed)
+                    print(left_encoder.value, right_encoder.value)
+                    # left_encoder.reset()
+                    # right_encoder.reset()
 
                 
                         # if left_speed < right_speed: # turn left
@@ -99,38 +98,7 @@ def move_robot():
                         #             pibot.value = (left_speed, 0)
                         #         else:
                         #             pibot.value = (left_speed, right_speed)
-                        #         print(left_encoder.value, right_encoder.value)              
-                else:
-                    if motion == 'stop':
-                        pibot.value = (left_speed, right_speed) 
-                        left_encoder.reset()
-                        right_encoder.reset()
-                        flag_new_pid_cycle = True
-                    elif motion == 'turning':
-                        if left_speed > right_speed:
-                            dir = "right"
-                        else:
-                            dir = "left"
-                        if flag_new_pid_cycle:
-                            pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=right_speed)
-                            flag_new_pid_cycle = False
-                        if dir == "left":
-                            pid_right.setpoint = left_encoder.value
-                            right_speed = pid_right(right_encoder.value)
-                            print(left_speed, right_speed)
-                            pibot.value = (-left_speed, right_speed)
-                        else:
-                            pid_right.setpoint = left_encoder.value
-                            right_speed = pid_right(-right_encoder.value)
-                            print(left_speed, -right_speed)
-                            pibot.value = (left_speed, -right_speed)
-                        print(left_encoder.value, right_encoder.value)
-                    
-                    # pibot.value = (left_speed, right_speed)
-                    # print(left_encoder.value, right_encoder.value)
-                    # left_encoder.reset()
-                    # right_encoder.reset()
-                    # flag_new_pid_cycle = True          
+                        #         print(left_encoder.value, right_encoder.value)                 
             else:
                 left_speed, right_speed = abs(left_speed), abs(right_speed)
                 if flag_new_pid_cycle:
