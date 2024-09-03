@@ -49,19 +49,22 @@ def move_robot():
                 elif motion == 'turning':
                     if left_speed > right_speed:
                         dir = "right"
+                        if flag_new_pid_cycle:
+                            pid_left = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(-1,1), starting_output=left_speed)
+                            flag_new_pid_cycle = False
                     else:
                         dir = "left"
-                    if flag_new_pid_cycle:
-                        pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(-1,1), starting_output=right_speed)
-                        flag_new_pid_cycle = False
+                        if flag_new_pid_cycle:
+                            pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(-1,1), starting_output=right_speed)
+                            flag_new_pid_cycle = False
                     if dir == "left":
                         pid_right.setpoint = left_encoder.value
                         right_speed = pid_right(right_encoder.value)
                         print(left_speed, right_speed)
                         pibot.value = (left_speed, right_speed)
                     else:
-                        pid_right.setpoint = left_encoder.value
-                        right_speed = pid_right(-right_encoder.value)
+                        pid_left.setpoint = right_encoder.value
+                        left_speed = pid_left(left_encoder.value)
                         print(left_speed, right_speed)
                         pibot.value = (left_speed, right_speed)
                     print(left_encoder.value, right_encoder.value)
