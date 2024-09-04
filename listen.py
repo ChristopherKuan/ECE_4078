@@ -40,46 +40,38 @@ def move_robot():
         ### with pid, left wheel is set as reference, and right wheel will try to match the encoder counter of left wheel
         ### pid only runs when robot moves forward or backward. Turning does not use pid
         else:
-            if (motion == 'stop') or (motion == 'turning') or (motion == ''):
+            if (motion == 'stop') or (motion == 'turning'):
                 if motion == 'stop':
-                    print("lolololol")
-                    print("stop")
-                    print("lolololol")
-                    pibot.value = (0, 0) 
+                    pibot.value = (left_speed, right_speed) 
                     left_encoder.reset()
                     right_encoder.reset()
                     flag_new_pid_cycle = True
                 elif motion == 'turning':
-                    print("lolololol")
-                    print("turning")
-                    print("lolololol")
                     if left_speed > right_speed:
                         dir = "right"
+                        if flag_new_pid_cycle:
+                            pid_left = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(-1,1), starting_output=left_speed)
+                            flag_new_pid_cycle = False
                     else:
                         dir = "left"
-                        
-                    if flag_new_pid_cycle:
-                        pid_right = PID(kp, ki, kd, setpoint=20, output_limits=(-1,1), starting_output=right_speed)
-                        pid_left = PID(kp, ki, kd, setpoint=20, output_limits=(-1,1), starting_output=left_speed)
-                        print("lolololol")
-                        print(pid_left, pid_right)
-                        print("lolololol")
-                        flag_new_pid_cycle = False
-                    
-                    left_speed = pid_left(left_encoder.value)
-                    right_speed = pid_right(right_encoder.value)
-                    if dir == "right":
-                        pibot.value = (left_speed, -right_speed)
+                        if flag_new_pid_cycle:
+                            pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(-1,1), starting_output=right_speed)
+                            flag_new_pid_cycle = False
+                    if dir == "left":
+                        pid_right.setpoint = left_encoder.value
+                        right_speed = pid_right(right_encoder.value)
+                        print(left_speed, right_speed)
+                        pibot.value = (left_speed, right_speed)
+                        if left_encoder.value >= 20:
+                            pibot.value = (0, 0)
                     else:
-                        pibot.value = (-left_speed, right_speed)
+                        pid_left.setpoint = right_encoder.value
+                        left_speed = pid_left(left_encoder.value)
+                        print(left_speed, right_speed)
+                        pibot.value = (left_speed, right_speed)
+                        if right_encoder.value >= 20:
+                            pibot.value = (0, 0)
                     print(left_encoder.value, right_encoder.value)
-                else:
-                    pibot.value = (0, 0) 
-                    left_encoder.reset()
-                    right_encoder.reset()
-                    flag_new_pid_cycle = True
-
-            
                     # left_encoder.reset()
                     # right_encoder.reset()
 
@@ -115,10 +107,6 @@ def move_robot():
                         #             pibot.value = (left_speed, right_speed)
                         #         print(left_encoder.value, right_encoder.value)                 
             else:
-                print("lolololol")
-                print("straight")
-                print("lolololol")
-                print(motion)
                 left_speed, right_speed = abs(left_speed), abs(right_speed)
                 if flag_new_pid_cycle:
                     pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=right_speed)
@@ -126,7 +114,7 @@ def move_robot():
                 pid_right.setpoint = left_encoder.value
                 right_speed = pid_right(right_encoder.value)
                 if motion == 'forward': pibot.value = (left_speed, right_speed)
-                elif motion == 'backward': pibot.value = (-left_speed, -right_speed)
+                else: pibot.value = (-left_speed, -right_speed)
                 # print('Value', left_encoder.value, right_encoder.value)
                 # print('Speed', left_speed, right_speed)
         time.sleep(0.0025)
@@ -199,7 +187,6 @@ picam2 = Picamera2()
 config = picam2.create_preview_configuration(lores={"size": (640,480)})
 picam2.configure(config)
 picam2.start()
-flag_new_pid_cycle=True
 time.sleep(2)
 
 # Initialize flask
