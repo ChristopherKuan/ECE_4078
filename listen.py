@@ -49,28 +49,20 @@ def move_robot():
                 elif motion == 'turning':
                     if left_speed > right_speed:
                         dir = "right"
-                        if flag_new_pid_cycle:
-                            pid_left = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(-1,1), starting_output=left_speed)
-                            flag_new_pid_cycle = False
                     else:
                         dir = "left"
-                        if flag_new_pid_cycle:
-                            pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(-1,1), starting_output=right_speed)
-                            flag_new_pid_cycle = False
-                    if dir == "left":
-                        pid_right.setpoint = left_encoder.value
-                        right_speed = pid_right(right_encoder.value)
-                        print(left_speed, right_speed)
-                        pibot.value = (left_speed, right_speed)
-                        if left_encoder.value >= 20:
-                            pibot.value = (0, 0)
+                        
+                    if flag_new_pid_cycle:
+                        pid_right = PID(kp, ki, kd, setpoint=20, output_limits=(-1,1), starting_output=right_speed)
+                        pid_left = PID(kp, ki, kd, setpoint=20, output_limits=(-1,1), starting_output=left_speed)
+                        flag_new_pid_cycle = False
+
+                    left_speed = pid_left(20)
+                    right_speed = pid_right(20)
+                    if dir == "right":
+                        pibot.value = (left_speed, -right_speed)
                     else:
-                        pid_left.setpoint = right_encoder.value
-                        left_speed = pid_left(left_encoder.value)
-                        print(left_speed, right_speed)
-                        pibot.value = (left_speed, right_speed)
-                        if right_encoder.value >= 20:
-                            pibot.value = (0, 0)
+                        pibot.value = (-left_speed, right_speed)
                     print(left_encoder.value, right_encoder.value)
                     # left_encoder.reset()
                     # right_encoder.reset()
