@@ -130,9 +130,8 @@ def move_robot():
                         pass
                     else:
                         pibot.value = (-left_speed, -right_speed)
-                print('Value', left_encoder.value, right_encoder.value)
-                print('Speed', left_speed, right_speed)
-        time.sleep(0.0025)
+                print(left_encoder.value - right_encoder.value)
+        time.sleep(0.005)
     
     
 # Receive confirmation whether to use pid or not to control the wheels (forward & backward)
