@@ -1,4 +1,4 @@
-from simple_pid import PID
+from feedforward_pid import PID
 from picamera2 import Picamera2
 from flask import Flask, Response, request
 from gpiozero import Robot, Motor, DigitalInputDevice
@@ -138,10 +138,10 @@ def move_robot():
 # Receive confirmation whether to use pid or not to control the wheels (forward & backward)
 @app.route('/pid')
 def set_pid():
-    global use_pid, kp, ki, kd
+    global use_pid, kp, ki, kd ,kf
     use_pid = int(request.args.get('use_pid'))
     if use_pid:
-        kp, ki, kd = float(request.args.get('kp')), float(request.args.get('ki')), float(request.args.get('kd'))
+        kp, ki, kd,kf = float(request.args.get('kp')), float(request.args.get('ki')), float(request.args.get('kd')), float(request.args.get('kf'))
         return "Using PID"
     else:
         return "Not using PID"
@@ -193,6 +193,7 @@ use_pid = 0
 kp = 0
 ki = 0
 kd = 0
+kf=0
 left_speed, right_speed = 0, 0
 motion = ''
 milestone = 0
