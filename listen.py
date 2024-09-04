@@ -179,6 +179,7 @@ picam2 = Picamera2()
 config = picam2.create_preview_configuration(lores={"size": (640,480)})
 picam2.configure(config)
 picam2.start()
+flag_new_pid_cycle=True
 time.sleep(2)
 
 # Initialize flask
