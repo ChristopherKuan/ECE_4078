@@ -45,7 +45,7 @@ def move_robot():
                     print("lolololol")
                     print("stop")
                     print("lolololol")
-                    pibot.value = (left_speed, right_speed) 
+                    pibot.value = (0, 0) 
                     left_encoder.reset()
                     right_encoder.reset()
                     flag_new_pid_cycle = True
