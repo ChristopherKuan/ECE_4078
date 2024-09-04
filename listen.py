@@ -129,7 +129,7 @@ def move_robot():
                             #pibot.value = (0, 0)
                         pass
                     else:
-                        pibot.value = (left_speed, right_speed)
+                        pibot.value = (-left_speed, -right_speed)
                 print('Value', left_encoder.value, right_encoder.value)
                 print('Speed', left_speed, right_speed)
         time.sleep(0.0025)
