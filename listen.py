@@ -40,7 +40,7 @@ def move_robot():
         ### with pid, left wheel is set as reference, and right wheel will try to match the encoder counter of left wheel
         ### pid only runs when robot moves forward or backward. Turning does not use pid
         else:
-            if (motion == 'stop') or (motion == 'turning'):
+            if (motion == 'stop') or (motion == 'turning') or (motion == ''):
                 if motion == 'stop':
                     print("lolololol")
                     print("stop")
@@ -73,6 +73,13 @@ def move_robot():
                     else:
                         pibot.value = (-left_speed, right_speed)
                     print(left_encoder.value, right_encoder.value)
+                else:
+                    pibot.value = (0, 0) 
+                    left_encoder.reset()
+                    right_encoder.reset()
+                    flag_new_pid_cycle = True
+
+            
                     # left_encoder.reset()
                     # right_encoder.reset()
 
@@ -119,7 +126,7 @@ def move_robot():
                 pid_right.setpoint = left_encoder.value
                 right_speed = pid_right(right_encoder.value)
                 if motion == 'forward': pibot.value = (left_speed, right_speed)
-                else: pibot.value = (-left_speed, -right_speed)
+                elif motion == 'backward': pibot.value = (-left_speed, -right_speed)
                 # print('Value', left_encoder.value, right_encoder.value)
                 # print('Speed', left_speed, right_speed)
         time.sleep(0.0025)
