@@ -42,11 +42,17 @@ def move_robot():
         else:
             if (motion == 'stop') or (motion == 'turning'):
                 if motion == 'stop':
+                    print("lolololol")
+                    print("stop")
+                    print("lolololol")
                     pibot.value = (left_speed, right_speed) 
                     left_encoder.reset()
                     right_encoder.reset()
                     flag_new_pid_cycle = True
                 elif motion == 'turning':
+                    print("lolololol")
+                    print("turning")
+                    print("lolololol")
                     if left_speed > right_speed:
                         dir = "right"
                     else:
@@ -102,6 +108,9 @@ def move_robot():
                         #             pibot.value = (left_speed, right_speed)
                         #         print(left_encoder.value, right_encoder.value)                 
             else:
+                print("lolololol")
+                print("straight")
+                print("lolololol")
                 left_speed, right_speed = abs(left_speed), abs(right_speed)
                 if flag_new_pid_cycle:
                     pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=right_speed)
