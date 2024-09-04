@@ -55,10 +55,11 @@ def move_robot():
                     if flag_new_pid_cycle:
                         pid_right = PID(kp, ki, kd, setpoint=20, output_limits=(-1,1), starting_output=right_speed)
                         pid_left = PID(kp, ki, kd, setpoint=20, output_limits=(-1,1), starting_output=left_speed)
+                        print(pid_left, pid_right)
                         flag_new_pid_cycle = False
-
-                    left_speed = pid_left(20)
-                    right_speed = pid_right(20)
+                    
+                    left_speed = pid_left(left_encoder.value)
+                    right_speed = pid_right(right_encoder.value)
                     if dir == "right":
                         pibot.value = (left_speed, -right_speed)
                     else:
