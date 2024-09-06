@@ -62,19 +62,19 @@ def move_robot():
                         right_speed = pid_right(right_encoder.value)
                         print(left_speed, right_speed)
                         pibot.value = (left_speed, right_speed)
-                        if left_encoder.value >= 20:
-                            #pibot.value = (0, 0)
-                            pass
+                        if left_encoder.value >= 40:
+                            pibot.value = (0, 0)
+                            
                     else:
                         pid_left.setpoint = right_encoder.value
                         left_speed = pid_left(left_encoder.value)
                         print(left_speed, right_speed)
                         pibot.value = (left_speed, right_speed)
-                        if right_encoder.value >= 20:
-                            #pibot.value = (0, 0)
-                            pass
-                        print("Left Turning:",left_encoder.value)
-                        print("Right Turning:", right_encoder.value)
+                        if right_encoder.value >= 40:
+                            pibot.value = (0, 0)
+                            
+                    print("Left Turning:",left_encoder.value)
+                    print("Right Turning:", right_encoder.value)
 
 
                 else:
@@ -122,15 +122,15 @@ def move_robot():
                 pid_right.setpoint = left_encoder.value
                 right_speed = pid_right(right_encoder.value)
                 if motion == 'forward': 
-                    if left_encoder.value >= 35 and right_encoder.value >= 35 :
-                        #pibot.value = (0, 0)
-                        pass
+                    if left_encoder.value >= 70 and right_encoder.value >= 70 :
+                        pibot.value = (0, 0)
+                        
                     else:
                         pibot.value = (left_speed, right_speed)
                 elif motion == "backward": 
-                    if left_encoder.value >= 35 and right_encoder.value >= 35:
-                        #pibot.value = (0, 0)
-                        pass
+                    if left_encoder.value >= 70 and right_encoder.value >= 70:
+                        pibot.value = (0, 0)
+                        
                     else:
                         pibot.value = (-left_speed, -right_speed)
                 print("Left:",left_encoder.value)
