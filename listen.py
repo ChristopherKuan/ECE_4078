@@ -62,7 +62,7 @@ def move_robot():
                         right_speed = pid_right(right_encoder.value)
                         print(left_speed, right_speed)
                         pibot.value = (left_speed, right_speed)
-                        if left_encoder.value >= 40:
+                        if left_encoder.value >= 39:
                             pibot.value = (0, 0)
                             
                     else:
@@ -70,7 +70,7 @@ def move_robot():
                         left_speed = pid_left(left_encoder.value)
                         print(left_speed, right_speed)
                         pibot.value = (left_speed, right_speed)
-                        if right_encoder.value >= 40:
+                        if right_encoder.value >= 39:
                             pibot.value = (0, 0)
                             
                     print("Left Turning:",left_encoder.value)
