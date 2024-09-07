@@ -84,7 +84,6 @@ def move_robot():
                     left_encoder.reset()
                     right_encoder.reset()
                     flag_new_pid_cycle = True
-                    print("Blank state\n")
                         
                 
                         # if left_speed < right_speed: # turn left
@@ -128,8 +127,8 @@ def move_robot():
                 # #right_speed = pid_right(right_encoder.value)
                 # left_speed = pid_left(left_encoder.value)
                 if flag_new_pid_cycle:
-                    pid_left = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0, 1), starting_output=0)
-                    pid_right = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(0, 1), starting_output=0)
+                    pid_left = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0, 1), starting_output=0.2)
+                    pid_right = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(0, 1), starting_output=0.2)
                     flag_new_pid_cycle = False
     
                 # Set independent setpoint for left wheel (desired speed)
@@ -142,13 +141,13 @@ def move_robot():
                 right_speed = pid_right(right_encoder.value)
 
                 if motion == 'forward': 
-                    if left_encoder.value >= 35 and right_encoder.value >= 80 :
+                    if left_encoder.value >= 80 and right_encoder.value >= 80 :
                         pibot.value = (0, 0)
                         
                     else:
                         pibot.value = (left_speed, right_speed)
                 elif motion == "backward": 
-                    if left_encoder.value >= 35 and right_encoder.value >= 80:
+                    if left_encoder.value >= 80 and right_encoder.value >= 80:
                         pibot.value = (0, 0)
                         
                     else:
