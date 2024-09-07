@@ -131,8 +131,11 @@ def move_robot():
                     pid_right = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(0, 1), starting_output=right_speed)
                     flag_new_pid_cycle = False
     
-                pid_left.setpoint = left_encoder.value + left_speed  # Adjust left wheel speed
-                pid_right.setpoint = right_encoder.value + right_speed  # Adjust right wheel speed
+                # Set independent setpoint for left wheel (desired speed)
+                pid_left.setpoint = left_encoder.value + left_speed
+    
+                # Right wheel tries to match the left wheel's encoder value
+                pid_right.setpoint = left_encoder.value
     
                 left_speed = pid_left(left_encoder.value)
                 right_speed = pid_right(right_encoder.value)
