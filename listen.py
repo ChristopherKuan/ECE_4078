@@ -64,6 +64,8 @@ def move_robot():
                         right_speed = pid_right(right_encoder.value)
                         print(left_speed, right_speed)
                         pibot.value = (left_speed, right_speed)
+                        if left_encoder.value >= 30:
+                            pibot.value = (left_speed*0.5, right_speed*0.5)
                         if left_encoder.value >= 39:
                             pibot.value = (0, 0)
                             
@@ -72,6 +74,8 @@ def move_robot():
                         left_speed = pid_left(left_encoder.value)
                         print(left_speed, right_speed)
                         pibot.value = (left_speed, right_speed)
+                        if left_encoder.value >= 30:
+                            pibot.value = (left_speed*0.5, right_speed*0.5)
                         if right_encoder.value >= 39:
                             pibot.value = (0, 0)
                             
@@ -139,15 +143,18 @@ def move_robot():
     
                 left_speed = pid_left(left_encoder.value)
                 right_speed = pid_right(right_encoder.value)
-                if left_encoder.value >= 70 and right_encoder.value >= 70:
-                        pibot.value = (left_speed * 0.5, right_speed * 0.5)
+
                 if motion == 'forward': 
+                    if left_encoder.value >= 60 and right_encoder.value >= 60:
+                        pibot.value = (left_speed * 0.5, right_speed * 0.5)
                     if left_encoder.value >= 80 and right_encoder.value >= 80 :
                         pibot.value = (0, 0)
                         
                     else:
                         pibot.value = (left_speed, right_speed)
                 elif motion == "backward": 
+                    if left_encoder.value >= 60 and right_encoder.value >= 60:
+                        pibot.value = (left_speed * 0.5, right_speed * 0.5)
                     if left_encoder.value >= 80 and right_encoder.value >= 80:
                         pibot.value = (0, 0)
                         
