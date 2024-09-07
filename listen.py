@@ -135,7 +135,7 @@ def move_robot():
                         pibot.value = (-left_speed, -right_speed)
                 print("Left:",left_encoder.value)
                 print("Right:", right_encoder.value)
-        time.sleep(0.02)
+        time.sleep(0.005)
     
     
 # Receive confirmation whether to use pid or not to control the wheels (forward & backward)
