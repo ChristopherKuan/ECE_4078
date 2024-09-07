@@ -82,6 +82,7 @@ def move_robot():
                     left_encoder.reset()
                     right_encoder.reset()
                     flag_new_pid_cycle = True
+                    print("balls to the walls\n")
                         
                 
                         # if left_speed < right_speed: # turn left
