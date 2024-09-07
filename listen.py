@@ -46,7 +46,8 @@ def move_robot():
                     left_encoder.reset()
                     right_encoder.reset()
                     flag_new_pid_cycle = True
-                    print("Stopped state\n")
+                    time.sleep(0.1)
+                    #print("Stopped state\n")
                 elif motion == 'turning':
                     if left_speed > right_speed:
                         dir = "right"
@@ -127,8 +128,8 @@ def move_robot():
                 # #right_speed = pid_right(right_encoder.value)
                 # left_speed = pid_left(left_encoder.value)
                 if flag_new_pid_cycle:
-                    pid_left = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0, 1), starting_output=left_speed)
-                    pid_right = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(0, 1), starting_output=right_speed)
+                    pid_left = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0, 1), starting_output=0)
+                    pid_right = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(0, 1), starting_output=0)
                     flag_new_pid_cycle = False
     
                 # Set independent setpoint for left wheel (desired speed)
