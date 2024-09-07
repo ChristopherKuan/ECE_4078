@@ -139,7 +139,8 @@ def move_robot():
     
                 left_speed = pid_left(left_encoder.value)
                 right_speed = pid_right(right_encoder.value)
-
+                if left_encoder.value >= 70 and right_encoder.value >= 70:
+                        pibot.value = (left_speed * 0.5, right_speed * 0.5)
                 if motion == 'forward': 
                     if left_encoder.value >= 80 and right_encoder.value >= 80 :
                         pibot.value = (0, 0)
