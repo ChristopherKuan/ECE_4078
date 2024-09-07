@@ -48,14 +48,14 @@ def move_robot():
             else:
                 left_speed, right_speed = abs(left_speed), abs(right_speed)
                 if flag_new_pid_cycle:
-                    pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=right_speed)
+                    pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
                     flag_new_pid_cycle = False
                 pid_right.setpoint = left_encoder.value
                 right_speed = pid_right(right_encoder.value)
                 if motion == 'forward': pibot.value = (left_speed, right_speed)
                 else: pibot.value = (-left_speed, -right_speed)
-                # print('Value', left_encoder.value, right_encoder.value)
-                # print('Speed', left_speed, right_speed)
+                print('Value', left_encoder.value, right_encoder.value)
+                print('Speed', left_speed, right_speed)
         time.sleep(0.005)
     
     
