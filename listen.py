@@ -46,6 +46,7 @@ def move_robot():
                     left_encoder.reset()
                     right_encoder.reset()
                     flag_new_pid_cycle = True
+                    print("Stopped state\n")
                 elif motion == 'turning':
                     if left_speed > right_speed:
                         dir = "right"
@@ -82,7 +83,7 @@ def move_robot():
                     left_encoder.reset()
                     right_encoder.reset()
                     flag_new_pid_cycle = True
-                    print("balls to the walls\n")
+                    print("Blank state\n")
                         
                 
                         # if left_speed < right_speed: # turn left
@@ -124,7 +125,7 @@ def move_robot():
                 #pid_right.setpoint = left_encoder.value
                 pid_left.setpoint = right_encoder.value
                 #right_speed = pid_right(right_encoder.value)
-                left_speed = pid_right(left_encoder.value)
+                left_speed = pid_left(left_encoder.value)
                 if motion == 'forward': 
                     if left_encoder.value >= 35 and right_encoder.value >= 35 :
                         pibot.value = (0, 0)
