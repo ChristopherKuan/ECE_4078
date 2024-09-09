@@ -154,7 +154,7 @@ def move_robot():
     
                     if motion == 'forward':
                         if left_encoder.value <= 20 and right_encoder.value <= 20 :
-                            pibot.value = (left_speed * 0.7, right_speed * 0.7)      
+                            pibot.value = (left_speed * 0.6, right_speed * 0.6)      
                         elif left_encoder.value >= 80 and right_encoder.value >= 80 :
                               pibot.value = (-0.02, -0.02)
                         elif left_encoder.value >= 60 and right_encoder.value >= 60:
