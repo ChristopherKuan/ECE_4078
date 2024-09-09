@@ -137,7 +137,7 @@ def move_robot():
     
 
 
-                if left_speed<0 & right_speed<0 :
+                if (left_speed<0) and (right_speed<0) :
                     pid_left.setpoint = left_encoder.value - left_speed
                     pid_right.setpoint = left_encoder.value- left_speed
                 else:
