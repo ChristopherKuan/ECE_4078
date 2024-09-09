@@ -121,53 +121,56 @@ def move_robot():
                         #             pibot.value = (left_speed, right_speed)
                         #         print(left_encoder.value, right_encoder.value)                 
             else:
-                # left_speed, right_speed = abs(left_speed), abs(right_speed)
-                # if flag_new_pid_cycle:
-                #     #pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
-                #     pid_left = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
-                #     flag_new_pid_cycle = False
-                # #pid_right.setpoint = left_encoder.value
-                # pid_left.setpoint = right_encoder.value
-                # #right_speed = pid_right(right_encoder.value)
-                # left_speed = pid_left(left_encoder.value)
-                if flag_new_pid_cycle:
-                    pid_left = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0, 1), starting_output=left_speed)
-                    pid_right = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(0, 1), starting_output=right_speed)
-                    flag_new_pid_cycle = False
+                if left_encoder.value =< 80 and right_encoder.value =< 80 :
+                    # left_speed, right_speed = abs(left_speed), abs(right_speed)
+                    # if flag_new_pid_cycle:
+                    #     #pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
+                    #     pid_left = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
+                    #     flag_new_pid_cycle = False
+                    # #pid_right.setpoint = left_encoder.value
+                    # pid_left.setpoint = right_encoder.value
+                    # #right_speed = pid_right(right_encoder.value)
+                    # left_speed = pid_left(left_encoder.value)
+                    if flag_new_pid_cycle:
+                        pid_left = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0, 1), starting_output=left_speed)
+                        pid_right = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(0, 1), starting_output=right_speed)
+                        flag_new_pid_cycle = False
+        
     
-
-
-                if (left_speed<0) and (right_speed<0) :
-                    pid_left.setpoint = left_encoder.value - left_speed
-                    pid_right.setpoint = left_encoder.value- left_speed
-                else:
-                    # Set independent setpoint for left wheel (desired speed)
-                    pid_left.setpoint = right_encoder.value + left_speed
-                    # Right wheel tries to match the left wheel's encoder value
-                    pid_right.setpoint = left_encoder.value+ left_speed
-                    
-                    
     
-                left_speed = pid_left(left_encoder.value)
-                right_speed = pid_right(right_encoder.value)
-
-                if motion == 'forward': 
-                    if left_encoder.value >= 80 and right_encoder.value >= 80 :
-                          pibot.value = (-0.02, -0.02)
-                    elif left_encoder.value >= 60 and right_encoder.value >= 60:
-                        pibot.value = (left_speed * 0.5, right_speed * 0.5)    
+                    if (left_speed<0) and (right_speed<0) :
+                        pid_left.setpoint = left_encoder.value - left_speed
+                        pid_right.setpoint = left_encoder.value- left_speed
                     else:
-                        pibot.value = (left_speed, right_speed)
-                elif motion == "backward": 
-                    if left_encoder.value >= 80 and right_encoder.value >= 80:
-                          pibot.value = (0.02, 0.02)
-                    elif left_encoder.value >= 60 and right_encoder.value >= 60:
-                        pibot.value = (left_speed * 0.5, right_speed * 0.5)
-                    else:
-                        pibot.value = (left_speed, right_speed)
-                        print("backwards")
-                print("Left:",left_encoder.value)
-                print("Right:", right_encoder.value)
+                        # Set independent setpoint for left wheel (desired speed)
+                        pid_left.setpoint = right_encoder.value + left_speed
+                        # Right wheel tries to match the left wheel's encoder value
+                        pid_right.setpoint = left_encoder.value+ left_speed
+                        
+                        
+        
+                    left_speed = pid_left(left_encoder.value)
+                    right_speed = pid_right(right_encoder.value)
+    
+                    if motion == 'forward': 
+                        if left_encoder.value >= 80 and right_encoder.value >= 80 :
+                              pibot.value = (-0.02, -0.02)
+                        elif left_encoder.value >= 60 and right_encoder.value >= 60:
+                            pibot.value = (left_speed * 0.5, right_speed * 0.5)    
+                        else:
+                            pibot.value = (left_speed, right_speed)
+                    elif motion == "backward": 
+                        if left_encoder.value >= 80 and right_encoder.value >= 80:
+                              pibot.value = (0.02, 0.02)
+                        elif left_encoder.value >= 60 and right_encoder.value >= 60:
+                            pibot.value = (left_speed * 0.5, right_speed * 0.5)
+                        else:
+                            pibot.value = (left_speed, right_speed)
+                            print("backwards")
+                    print("Left:",left_encoder.value)
+                    print("Right:", right_encoder.value)
+            else:
+                pibot.value = (0, 0)
         time.sleep(0.002)
     
     
