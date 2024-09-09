@@ -169,8 +169,8 @@ def move_robot():
                             print("backwards")
                     print("Left:",left_encoder.value)
                     print("Right:", right_encoder.value)
-            else:
-                pibot.value = (0, 0)
+                else:
+                    pibot.value = (0, 0)
         time.sleep(0.002)
     
     
