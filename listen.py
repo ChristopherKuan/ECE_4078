@@ -145,24 +145,22 @@ def move_robot():
                 right_speed = pid_right(right_encoder.value)
 
                 if motion == 'forward': 
-                    if left_encoder.value >= 60 and right_encoder.value >= 60:
-                        pibot.value = (left_speed * 0.5, right_speed * 0.5)
                     if left_encoder.value >= 80 and right_encoder.value >= 80 :
-                          pibot.value = (-0.1, -0.1)
-                        
+                          pibot.value = (-0.02, -0.02)
+                    elif left_encoder.value >= 60 and right_encoder.value >= 60:
+                        pibot.value = (left_speed * 0.5, right_speed * 0.5)    
                     else:
                         pibot.value = (left_speed, right_speed)
                 elif motion == "backward": 
-                    if left_encoder.value >= 60 and right_encoder.value >= 60:
-                        pibot.value = (left_speed * 0.5, right_speed * 0.5)
                     if left_encoder.value >= 80 and right_encoder.value >= 80:
-                          pibot.value = (-0.1, -0.1)
-                        
+                          pibot.value = (0.02, 0.02)
+                    elif left_encoder.value >= 60 and right_encoder.value >= 60:
+                        pibot.value = (left_speed * 0.5, right_speed * 0.5)
                     else:
                         pibot.value = (-left_speed, -right_speed)
                 print("Left:",left_encoder.value)
                 print("Right:", right_encoder.value)
-        time.sleep(0.0002)
+        time.sleep(0.002)
     
     
 # Receive confirmation whether to use pid or not to control the wheels (forward & backward)
