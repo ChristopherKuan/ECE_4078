@@ -143,7 +143,7 @@ def move_robot():
                         pid_right.setpoint = left_encoder.value- left_speed
                     else:
                         # Set independent setpoint for left wheel (desired speed)
-                        pid_left.setpoint = right_encoder.value + left_speed
+                        pid_left.setpoint = left_encoder.value + left_speed
                         # Right wheel tries to match the left wheel's encoder value
                         pid_right.setpoint = left_encoder.value+ left_speed
                         
@@ -155,7 +155,7 @@ def move_robot():
                     if motion == 'forward': 
                         if left_encoder.value >= 80 and right_encoder.value >= 80 :
                               pibot.value = (-0.02, -0.02)
-                        elif left_encoder.value >= 60 and right_encoder.value >= 60:
+                        elif left_encoder.value >= 50 and right_encoder.value >= 50:
                             pibot.value = (left_speed * 0.5, right_speed * 0.5)    
                         else:
                             pibot.value = (left_speed, right_speed)
