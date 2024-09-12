@@ -156,7 +156,7 @@ def capture_image():
 def move():
     global left_speed, right_speed, motion
     left_speed, right_speed, milestone, ticks = float(request.args.get('left_speed')), float(request.args.get('right_speed')), int(request.args.get('milestone')), int(request.args.get('ticks'))
-    print(left_speed, right_speed)
+    print(milestone, ticks)
     if (left_speed == 0 and right_speed == 0):
         motion = 'stop'
     elif (left_speed != right_speed ):
