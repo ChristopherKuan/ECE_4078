@@ -86,6 +86,7 @@ def move_robot():
                             print(left_encoder.value)
                             if left_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
+                                motion = "stop"
                             else:
                                 if flag_new_pid_cycle:
                                     pid_right = PID(0.1,0.01, 0.0004, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
