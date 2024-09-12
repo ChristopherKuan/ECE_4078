@@ -34,6 +34,8 @@ def move_robot():
     flag_new_pid_cycle = True
     while True:
         if milestone != 4:
+            print("fked")
+            print(flag_new_pid_cycle)
             ### if not using pid, just move the wheels as commanded
             if not use_pid:
                 pibot.value = (left_speed, right_speed)          
@@ -60,6 +62,8 @@ def move_robot():
             time.sleep(0.005)
             
         else: ### EDIT THIS ONE
+            print("not")
+            print(flag_new_pid_cycle)
             ### if not using pid, just move the wheels as commanded
             if not use_pid:
                 pibot.value = (left_speed, right_speed)          
