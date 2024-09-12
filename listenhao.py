@@ -30,7 +30,7 @@ class Encoder(object):
 
 # main function to control the robot wheels
 def move_robot():
-    global use_pid, left_speed, right_speed, motion
+    global use_pid, left_speed, right_speed, motion, milestone, ticks
     flag_new_pid_cycle = True
     while True:
         if milestone != 4:
@@ -154,7 +154,7 @@ def capture_image():
  # Receive command to move the pibot
 @app.route('/move')
 def move():
-    global left_speed, right_speed, motion
+    global left_speed, right_speed, motion, milestone, ticks
     left_speed, right_speed, milestone, ticks = float(request.args.get('left_speed')), float(request.args.get('right_speed')), int(request.args.get('milestone')), int(request.args.get('ticks'))
     print(milestone, ticks)
     if (left_speed == 0 and right_speed == 0):
