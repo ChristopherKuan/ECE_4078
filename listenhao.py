@@ -101,6 +101,7 @@ def move_robot():
                                 pibot.value = (-0.02, -0.02)
                                 motion = "stop"
                             else:
+                                print(flag_new_pid_cycle)
                                 if flag_new_pid_cycle:
                                     pid_left = PID(0.1, 0.01, 0.0004, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
                                     flag_new_pid_cycle = False
