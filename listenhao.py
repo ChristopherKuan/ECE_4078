@@ -75,12 +75,14 @@ def move_robot():
                         flag_new_pid_cycle = True
                         
                     elif motion == 'turning':
+                        print(motion)
                         if left_speed > right_speed:
                             dir = "right"
                         else:
                             dir = "left"
                             
                         if dir == 'left':
+                            print(left_encoder.value)
                             if left_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
                             else:
