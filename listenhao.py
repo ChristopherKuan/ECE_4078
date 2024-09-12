@@ -34,7 +34,6 @@ def move_robot():
     flag_new_pid_cycle = True
     while True:
         if milestone != 4:
-            print("fked")
             ### if not using pid, just move the wheels as commanded
             if not use_pid:
                 pibot.value = (left_speed, right_speed)          
@@ -61,7 +60,6 @@ def move_robot():
             time.sleep(0.005)
             
         else: ### EDIT THIS ONE
-            print("not fked")
             ### if not using pid, just move the wheels as commanded
             if not use_pid:
                 pibot.value = (left_speed, right_speed)          
@@ -69,6 +67,7 @@ def move_robot():
             ### with pid, left wheel is set as reference, and right wheel will try to match the encoder counter of left wheel
             ### pid only runs when robot moves forward or backward. Turning does not use pid
             else:
+                print(motion)
                 if (motion == 'stop') or (motion == 'turning') or (motion == ''):
                     if motion == 'stop':
                         pibot.value = (left_speed, right_speed)
@@ -77,7 +76,6 @@ def move_robot():
                         flag_new_pid_cycle = True
                         
                     elif motion == 'turning':
-                        print(motion)
                         if left_speed > right_speed:
                             dir = "right"
                         else:
@@ -156,7 +154,6 @@ def capture_image():
 def move():
     global left_speed, right_speed, motion, milestone, ticks
     left_speed, right_speed, milestone, ticks = float(request.args.get('left_speed')), float(request.args.get('right_speed')), int(request.args.get('milestone')), int(request.args.get('ticks'))
-    print(milestone, ticks)
     if (left_speed == 0 and right_speed == 0):
         motion = 'stop'
     elif (left_speed != right_speed ):
