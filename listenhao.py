@@ -34,8 +34,6 @@ def move_robot():
     flag_new_pid_cycle = True
     while True:
         if milestone != 4:
-            print("fked")
-            print(flag_new_pid_cycle)
             ### if not using pid, just move the wheels as commanded
             if not use_pid:
                 pibot.value = (left_speed, right_speed)          
@@ -50,7 +48,7 @@ def move_robot():
                     flag_new_pid_cycle = True          
                 else:
                     left_speed, right_speed = abs(left_speed), abs(right_speed)
-                    if flag_new_pid_cycle:
+                    if flag_new_pid_cycle && left_speed != 0 && right_speed != 0:
                         pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=right_speed)
                         flag_new_pid_cycle = False
                     pid_right.setpoint = left_encoder.value
@@ -62,8 +60,6 @@ def move_robot():
             time.sleep(0.005)
             
         else: ### EDIT THIS ONE
-            print("not")
-            print(flag_new_pid_cycle)
             ### if not using pid, just move the wheels as commanded
             if not use_pid:
                 pibot.value = (left_speed, right_speed)          
@@ -71,7 +67,6 @@ def move_robot():
             ### with pid, left wheel is set as reference, and right wheel will try to match the encoder counter of left wheel
             ### pid only runs when robot moves forward or backward. Turning does not use pid
             else:
-                print(motion)
                 if (motion == 'stop') or (motion == 'turning') or (motion == ''):
                     if motion == 'stop':
                         pibot.value = (0, 0)
@@ -80,7 +75,6 @@ def move_robot():
                         flag_new_pid_cycle = True
                         
                     elif motion == 'turning':
-                        print(flag_new_pid_cycle)
                         if left_speed > right_speed:
                             dir = "right"
                         else:
@@ -105,7 +99,6 @@ def move_robot():
                                 pibot.value = (-0.02, -0.02)
                                 motion = "stop"
                             else:
-                                print(flag_new_pid_cycle)
                                 if flag_new_pid_cycle:
                                     pid_left = PID(0.1, 0.01, 0.0004, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
                                     flag_new_pid_cycle = False
