@@ -61,6 +61,7 @@ def move_robot():
             time.sleep(0.005)
             
         else: ### EDIT THIS ONE
+            print("not fked")
             ### if not using pid, just move the wheels as commanded
             if not use_pid:
                 pibot.value = (left_speed, right_speed)          
