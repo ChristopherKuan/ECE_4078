@@ -105,9 +105,6 @@ def move_robot():
                                     flag_new_pid_cycle = False
                                 pid_left.setpoint = right_encoder.value
                                 left_speed = pid_left(left_encoder.value)
-                                if right_encoder.value >= 0.75*ticks:
-                                    left_speed *= 0.5
-                                    right_speed *= 0.5
                                 pibot.value = (left_speed, right_speed)
 
                     else:
