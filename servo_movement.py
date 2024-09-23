@@ -28,11 +28,11 @@ def automatic_movement():
     global current_angle
     while True:
         # Increment the angle by 10 degrees, ensuring it stays within bounds
-        new_angle = current_angle + 10
+        new_angle = current_angle + 5
         if new_angle > 90:
             new_angle = -90  # Reset to -90 if it exceeds 90
         move_servo(new_angle)
-        time.sleep(2)  # Wait for 2 seconds before moving again
+        time.sleep(0.5)  # Wait for 2 seconds before moving again
 
 @app.route('/')
 def home():
