@@ -1,38 +1,39 @@
 from flask import Flask
-from gpiozero import Servo
+import pigpio
 import time
 import threading
 
 app = Flask(__name__)
 
-# Initialize the servo
-servo = Servo(22)  # Use the GPIO pin connected to the servo
+# Servo GPIO pin
+servo_pin = 23
 
-# Current angle of the servo
-current_angle = 0
+# Initialize pigpio
+pwm = pigpio.pi()
+pwm.set_mode(servo_pin, pigpio.OUTPUT)
+pwm.set_PWM_frequency(servo_pin, 50)
 
-# Function to map angle to servo value
-def angle_to_servo_value(angle):
-    if angle < -90 or angle > 90:
-        raise ValueError("Angle must be between -90 and 90 degrees.")
-    return angle / 90  # Map -90 to 1 and 90 to -1
-
-# Function to move the servo to a specific angle
+# Function to move the servo to specific angles
 def move_servo(angle):
-    global current_angle
-    servo.value = angle_to_servo_value(angle)
-    current_angle = angle
+    if angle == 0:
+        print("0 deg")
+        pwm.set_servo_pulsewidth(servo_pin, 500)
+    elif angle == 90:
+        print("90 deg")
+        pwm.set_servo_pulsewidth(servo_pin, 1500)
+    elif angle == 180:
+        print("180 deg")
+        pwm.set_servo_pulsewidth(servo_pin, 2500)
+    else:
+        raise ValueError("Angle must be 0, 90, or 180 degrees.")
+    time.sleep(3)  # Wait for the servo to reach the position
 
 # Function for automatic movement
 def automatic_movement():
-    global current_angle
     while True:
-        # Increment the angle by 10 degrees, ensuring it stays within bounds
-        new_angle = current_angle + 5
-        if new_angle > 90:
-            new_angle = -90  # Reset to -90 if it exceeds 90
-        move_servo(new_angle)
-        time.sleep(0.5)  # Wait for 2 seconds before moving again
+        move_servo(0)
+        move_servo(90)
+        move_servo(180)
 
 @app.route('/')
 def home():
@@ -56,3 +57,6 @@ try:
         time.sleep(1)  # Keep the main thread alive
 except KeyboardInterrupt:
     print("Program interrupted by user.")
+    # Turn off the servo
+    pwm.set_servo_pulsewidth(servo_pin, 0)  # Stop sending signals to the servo
+    pwm.stop()  # Stop pigpio
