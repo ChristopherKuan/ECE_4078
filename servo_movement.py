@@ -17,15 +17,15 @@ pwm.set_PWM_frequency(servo_pin, 50)
 def move_servo(angle):
     if angle == 0:
         print("0 deg")
-        pwm.set_servo_pulsewidth(servo_pin, 500)
+        pwm.set_servo_pulsewidth(servo_pin, 1500)
     elif angle == 90:
         print("90 deg")
-        pwm.set_servo_pulsewidth(servo_pin, 1500)
-    elif angle == 180:
-        print("180 deg")
         pwm.set_servo_pulsewidth(servo_pin, 2500)
+    elif angle == -90:
+        print("-90 deg")
+        pwm.set_servo_pulsewidth(servo_pin, 500)
     else:
-        raise ValueError("Angle must be 0, 90, or 180 degrees.")
+        raise ValueError("Angle must be 0, 90, or -90 degrees.")
     time.sleep(3)  # Wait for the servo to reach the position
 
 # Function for automatic movement
@@ -33,7 +33,7 @@ def automatic_movement():
     while True:
         move_servo(0)
         move_servo(90)
-        move_servo(180)
+        move_servo(-90)
 
 @app.route('/')
 def home():
