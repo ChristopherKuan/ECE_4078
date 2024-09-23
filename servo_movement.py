@@ -32,8 +32,8 @@ def move_servo(angle):
 def automatic_movement():
     while True:
         move_servo(0)
-        #move_servo(90)
-        #move_servo(180)
+        move_servo(90)
+        move_servo(180)
 
 @app.route('/')
 def home():
