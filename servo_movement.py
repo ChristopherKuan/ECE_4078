@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, request
 import pigpio
 import time
 import threading
+import keyboard  # Library to capture key presses
 
 app = Flask(__name__)
 
@@ -15,48 +16,66 @@ pwm.set_PWM_frequency(servo_pin, 50)
 
 # Function to move the servo to specific angles
 def move_servo(angle):
-    if angle == 0:
-        print("0 deg")
-        pwm.set_servo_pulsewidth(servo_pin, 1500)
-    elif angle == 90:
-        print("90 deg")
-        pwm.set_servo_pulsewidth(servo_pin, 2500)
-    elif angle == -90:
-        print("-90 deg")
-        pwm.set_servo_pulsewidth(servo_pin, 500)
-    else:
-        raise ValueError("Angle must be 0, 90, or -90 degrees.")
-    time.sleep(3)  # Wait for the servo to reach the position
+    pulsewidth = int(1500 + (angle * 1000 / 90))  # Map -90 to 90 to pulsewidth 500 to 2500
+    print(f"Moving servo to {angle} degrees with pulsewidth {pulsewidth}")
+    pwm.set_servo_pulsewidth(servo_pin, pulsewidth)
+    time.sleep(1)  # Adjust this based on your servo's speed
 
-# Function for automatic movement
-def automatic_movement():
-    while True:
-        move_servo(0)
-        move_servo(90)
-        move_servo(-90)
+# Flask route to control servo via API
+@app.route('/move_servo', methods=['POST'])
+def control_servo():
+    try:
+        angle = int(request.form['angle'])
+        if -90 <= angle <= 90:
+            move_servo(angle)
+            return f"Servo moved to {angle} degrees", 200
+        else:
+            return "Invalid angle. Allowed range is -90 to 90 degrees.", 400
+    except Exception as e:
+        return f"Error: {e}", 400
 
 @app.route('/')
 def home():
-    return "Servo is moving automatically!"
+    return "Servo control API is running!"
 
 def run_flask():
     app.run(host='0.0.0.0', port=5000)
+
+# Function to capture key presses and move servo
+def keyboard_control():
+    current_angle = 0  # Start with 0 degrees
+    move_servo(current_angle)  # Move servo to the starting position
+
+    print("Use arrow keys to control the servo angle (-90 to 90 degrees)")
+    while True:
+        try:
+            if keyboard.is_pressed('up'):  # Increase angle by 5 degrees
+                if current_angle < 90:
+                    current_angle += 5
+                    move_servo(current_angle)
+                time.sleep(0.2)  # Small delay to prevent rapid changes
+
+            elif keyboard.is_pressed('down'):  # Decrease angle by 5 degrees
+                if current_angle > -90:
+                    current_angle -= 5
+                    move_servo(current_angle)
+                time.sleep(0.2)
+
+            time.sleep(0.01)  # Small sleep to allow smooth key press handling
+        except KeyboardInterrupt:
+            break
 
 # Start the Flask server in a separate thread
 flask_thread = threading.Thread(target=run_flask)
 flask_thread.daemon = True
 flask_thread.start()
 
-# Start the automatic movement in a separate thread
-auto_movement_thread = threading.Thread(target=automatic_movement)
-auto_movement_thread.daemon = True
-auto_movement_thread.start()
-
+# Start keyboard control in the main thread
 try:
-    while True:
-        time.sleep(1)  # Keep the main thread alive
+    keyboard_control()
 except KeyboardInterrupt:
     print("Program interrupted by user.")
+finally:
     # Turn off the servo
     pwm.set_servo_pulsewidth(servo_pin, 0)  # Stop sending signals to the servo
     pwm.stop()  # Stop pigpio
