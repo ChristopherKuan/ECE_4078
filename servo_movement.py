@@ -2,7 +2,6 @@ from flask import Flask, request
 import pigpio
 import time
 import threading
-import keyboard  # Library to capture key presses
 
 app = Flask(__name__)
 
