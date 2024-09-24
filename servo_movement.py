@@ -15,7 +15,8 @@ pwm.set_PWM_frequency(servo_pin, 50)
 
 # Function to move the servo to specific angles
 def move_servo(angle):
-    pulsewidth = int(1500 + (angle * 1000 / 90))  # Map -90 to 90 to pulsewidth 500 to 2500
+    # Map -90 to 90 degrees to pulsewidth 500 to 2500
+    pulsewidth = int(1500 + (angle * 1000 / 90))  
     print(f"Moving servo to {angle} degrees with pulsewidth {pulsewidth}")
     pwm.set_servo_pulsewidth(servo_pin, pulsewidth)
     time.sleep(1)  # Adjust this based on your servo's speed
@@ -45,9 +46,10 @@ flask_thread = threading.Thread(target=run_flask)
 flask_thread.daemon = True
 flask_thread.start()
 
-# Start keyboard control in the main thread
+# Keep the main thread alive
 try:
-    keyboard_control()
+    while True:
+        time.sleep(1)  # Keeps the server running
 except KeyboardInterrupt:
     print("Program interrupted by user.")
 finally:
