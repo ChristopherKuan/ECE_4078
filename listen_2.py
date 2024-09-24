@@ -48,7 +48,7 @@ def move_robot():
             else:
                 left_speed, right_speed = abs(left_speed), abs(right_speed)
                 if flag_new_pid_cycle:
-                    pid_left = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(0,1), starting_output=left_speed)
+                    pid_left = PID(kp, ki, kd, setpoint=right_encoder.value, output_limits=(0,0.75), starting_output=left_speed)
                     flag_new_pid_cycle = False
                 pid_left.setpoint = right_encoder.value
                 left_speed = pid_left(left_encoder.value)
