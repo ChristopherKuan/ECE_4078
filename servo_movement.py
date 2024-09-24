@@ -41,30 +41,6 @@ def home():
 def run_flask():
     app.run(host='0.0.0.0', port=5000)
 
-# Function to capture key presses and move servo
-def keyboard_control():
-    current_angle = 0  # Start with 0 degrees
-    move_servo(current_angle)  # Move servo to the starting position
-
-    print("Use arrow keys to control the servo angle (-90 to 90 degrees)")
-    while True:
-        try:
-            if keyboard.is_pressed('up'):  # Increase angle by 5 degrees
-                if current_angle < 90:
-                    current_angle += 5
-                    move_servo(current_angle)
-                time.sleep(0.2)  # Small delay to prevent rapid changes
-
-            elif keyboard.is_pressed('down'):  # Decrease angle by 5 degrees
-                if current_angle > -90:
-                    current_angle -= 5
-                    move_servo(current_angle)
-                time.sleep(0.2)
-
-            time.sleep(0.01)  # Small sleep to allow smooth key press handling
-        except KeyboardInterrupt:
-            break
-
 # Start the Flask server in a separate thread
 flask_thread = threading.Thread(target=run_flask)
 flask_thread.daemon = True
