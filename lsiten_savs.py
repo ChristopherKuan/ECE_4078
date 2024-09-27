@@ -14,7 +14,7 @@ app = Flask(__name__)
 servo_pin = 12
 
 # Initialize pigpio for servo control
-pwm = pigpio.pi('soft',5000)
+pwm = pigpio.pi('soft',8888)
 pwm.set_mode(servo_pin, pigpio.OUTPUT)
 pwm.set_PWM_frequency(servo_pin, 50)
 
