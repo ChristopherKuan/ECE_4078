@@ -11,7 +11,7 @@ import threading
 app = Flask(__name__)
 
 # Servo GPIO pin
-servo_pin = 23
+servo_pin = 12
 
 # Initialize pigpio for servo control
 pwm = pigpio.pi()
