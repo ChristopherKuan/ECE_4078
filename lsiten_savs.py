@@ -6,9 +6,6 @@ import pigpio
 import io
 import time
 import threading
-export PIGPIO_ADDR=soft
-export PIGPIO_PORT=8888
-
 app = Flask(__name__)
 
 # Servo GPIO pin
