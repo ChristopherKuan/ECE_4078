@@ -12,7 +12,7 @@ app = Flask(__name__)
 servo_pin = 12
 
 # Initialize pigpio for servo control
-pwm = pigpio.pi('soft',8888)
+pwm = pigpio.pi()
 if not pwm.connected:
     print("Could not connect to pigpio daemon!")
     exit()
