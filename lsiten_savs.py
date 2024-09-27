@@ -6,7 +6,8 @@ import pigpio
 import io
 import time
 import threading
-
+export PIGPIO_ADDR=soft
+export PIGPIO_PORT=8888
 
 app = Flask(__name__)
 
@@ -15,6 +16,9 @@ servo_pin = 12
 
 # Initialize pigpio for servo control
 pwm = pigpio.pi('soft',8888)
+if not pwm.connected:
+    print("Could not connect to pigpio daemon!")
+    exit()
 pwm.set_mode(servo_pin, pigpio.OUTPUT)
 pwm.set_PWM_frequency(servo_pin, 50)
 
