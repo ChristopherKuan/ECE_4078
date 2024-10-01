@@ -2,12 +2,43 @@ from simple_pid import PID
 from picamera2 import Picamera2
 from flask import Flask, Response, request
 from gpiozero import Robot, Motor, DigitalInputDevice
+import pigpio
 import io
 import time
 import threading
-
-
 app = Flask(__name__)
+
+# Servo GPIO pin
+servo_pin = 12
+
+# Initialize pigpio for servo control
+pwm = pigpio.pi()
+if not pwm.connected:
+    print("Could not connect to pigpio daemon!")
+    exit()
+pwm.set_mode(servo_pin, pigpio.OUTPUT)
+pwm.set_PWM_frequency(servo_pin, 50)
+
+# Function to move the servo to specific angles
+def move_servo(angle):
+    # Map -90 to 90 degrees to pulsewidth 500 to 2500
+    pulsewidth = int(1500 + (angle * 1000 / 90))  
+    print(f"Moving servo to {angle} degrees with pulsewidth {pulsewidth}")
+    pwm.set_servo_pulsewidth(servo_pin, pulsewidth)
+    time.sleep(1)  # Adjust this based on your servo's speed
+
+# Flask route to control the servo via API
+@app.route('/move_servo', methods=['POST'])
+def control_servo():
+    try:
+        angle = int(request.form['angle'])
+        if -90 <= angle <= 90:
+            move_servo(angle)
+            return f"Servo moved to {angle} degrees", 200
+        else:
+            return "Invalid angle. Allowed range is -90 to 90 degrees.", 400
+    except Exception as e:
+        return f"Error: {e}", 400
 
 
 class Encoder(object):
@@ -159,3 +190,7 @@ except KeyboardInterrupt:
     pibot.stop()
     picam2.stop()
     print("Program interrupted by user.")
+finally:
+    # Turn off the servo when the program ends
+    pwm.set_servo_pulsewidth(servo_pin, 0)  # Stop sending signals to the servo
+    pwm.stop()  # Stop pigpio
