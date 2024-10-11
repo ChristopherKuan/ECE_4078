@@ -61,7 +61,7 @@ class Encoder(object):
 
 # main function to control the robot wheels
 def move_robot():
-    global use_pid, left_speed, right_speed
+    global use_pid, left_speed, right_speed, motion, milestone, ticks
     flag_new_pid_cycle = True
     while True:
         if milestone != 4:
