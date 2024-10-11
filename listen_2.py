@@ -108,6 +108,7 @@ def move_robot():
 
         else: ### EDIT THIS ONE
             ### if not using pid, just move the wheels as commanded
+            print("CCCCCCCCCCCCCCCCCoooooooooooooooooooooooooooorrect")
             if not use_pid:
                 pibot.value = (left_speed, right_speed)          
             
