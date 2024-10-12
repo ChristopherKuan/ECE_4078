@@ -65,7 +65,7 @@ def move_robot():
     flag_new_pid_cycle = True
     while True:
         if milestone != 4:
-            print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWRRRRRRRRRRRRRRROOOOOOOOOONNNNNNNNNNGGGGGGGGGGGGG")
+            # print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWRRRRRRRRRRRRRRROOOOOOOOOONNNNNNNNNNGGGGGGGGGGGGG")
             ### if not using pid, just move the wheels as commanded
             if not use_pid:
                 pibot.value = (left_speed, right_speed)          
@@ -109,7 +109,7 @@ def move_robot():
 
         else: ### EDIT THIS ONE
             ### if not using pid, just move the wheels as commanded
-            print("CCCCCCCCCCCCCCCCCoooooooooooooooooooooooooooorrect")
+            # print("CCCCCCCCCCCCCCCCCoooooooooooooooooooooooooooorrect")
             if not use_pid:
                 pibot.value = (left_speed, right_speed)          
             
@@ -134,22 +134,22 @@ def move_robot():
                                 pibot.value = (-0.02, -0.02)
                                 motion = "stop"
                             else:
-                                if flag_new_pid_cycle:
-                                    pid_right = PID(0.1,0.01, 0.0004, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
-                                    flag_new_pid_cycle = False
-                                pid_right.setpoint = left_encoder.value
-                                right_speed = pid_right(right_encoder.value)
+                                # if flag_new_pid_cycle:
+                                #     pid_right = PID(0.1,0.01, 0.0004, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
+                                #     flag_new_pid_cycle = False
+                                # pid_right.setpoint = left_encoder.value
+                                # right_speed = pid_right(right_encoder.value)
                                 pibot.value = (left_speed, right_speed)
                         else:
                             if right_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
                                 motion = "stop"
                             else:
-                                if flag_new_pid_cycle:
-                                    pid_left = PID(0.1, 0.01, 0.0004, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
-                                    flag_new_pid_cycle = False
-                                pid_left.setpoint = right_encoder.value
-                                left_speed = pid_left(left_encoder.value)
+                                # if flag_new_pid_cycle:
+                                #     pid_left = PID(0.1, 0.01, 0.0004, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
+                                #     flag_new_pid_cycle = False
+                                # pid_left.setpoint = right_encoder.value
+                                # left_speed = pid_left(left_encoder.value)
                                 pibot.value = (left_speed, right_speed)
 
                     else:
@@ -165,8 +165,17 @@ def move_robot():
                         flag_new_pid_cycle = False
                     pid_right.setpoint = left_encoder.value
                     right_speed = pid_right(right_encoder.value)
-                    if motion == 'forward': pibot.value = (left_speed, right_speed)
-                    else: pibot.value = (-left_speed, -right_speed)
+                    if motion == 'forward':
+                            if left_encoder.value <= 10 and right_encoder.value <= 10 :
+                                pibot.value = (left_speed * 0.9, right_speed * 0.6)         
+                            else:
+                                pibot.value = (left_speed, right_speed)
+                        #pibot.value = (left_speed, right_speed)
+                    else: 
+                            if left_encoder.value <= 10 and right_encoder.value <= 10 :
+                                pibot.value = (-left_speed * 0.9, -right_speed * 0.6)         
+                            else:
+                                pibot.value = (-left_speed, -right_speed)
                     print('Value', left_encoder.value, right_encoder.value)
                     print('Speed', left_speed, right_speed)
         time.sleep(0.002)
