@@ -180,7 +180,7 @@ def move_robot():
                 #     print('Speed', left_speed, right_speed)
         time.sleep(0.002)
 
-@app.route('/get_encoders')
+@app.route('/get_encoders', methods=['GET'])
 def return_encoders():
     try:
         # Return the encoder values as a JSON response
