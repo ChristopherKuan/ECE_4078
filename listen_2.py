@@ -181,7 +181,7 @@ def move_robot():
         time.sleep(0.002)
 
 @app.route('/get_encoders')
-def get_encoders():
+def return_encoders():
     try:
         # Return the encoder values as a JSON response
         data = {
