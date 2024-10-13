@@ -74,9 +74,10 @@ def move_robot():
             ### pid only runs when robot moves forward or backward. Turning does not use pid
             else:
                 if (motion == 'stop') or (motion == 'turning'):
+                    if motion=='stop':
+                        left_encoder.reset()
+                        right_encoder.reset()
                     pibot.value = (left_speed, right_speed) 
-                    left_encoder.reset()
-                    right_encoder.reset()
                     flag_new_pid_cycle = True          
                 else:
                     left_speed, right_speed = abs(left_speed), abs(right_speed)
