@@ -170,8 +170,13 @@ def move_robot():
                     pid_right.setpoint = left_encoder.value
                     right_speed = pid_right(right_encoder.value)
                     if motion == 'forward':
-                            if left_encoder.value <= 10 and right_encoder.value <= 10 :
-                                pibot.value = (left_speed * 0.9, right_speed * 0.6)         
+                            if left_encoder.value >= ticks:
+                                pibot.value = (-0.02, -0.02)
+                                left_encoder_value = left_encoder.value
+                                right_encoder_value = right_encoder.value
+                                motion = "stop" 
+                            elif left_encoder.value <= 10 and right_encoder.value <= 10 :
+                                pibot.value = (left_speed * 0.9, right_speed * 0.6)
                             else:
                                 pibot.value = (left_speed, right_speed)
                         #pibot.value = (left_speed, right_speed)
@@ -180,8 +185,6 @@ def move_robot():
                                 pibot.value = (-left_speed * 0.9, -right_speed * 0.6)         
                             else:
                                 pibot.value = (-left_speed, -right_speed)
-                    left_encoder_value = left_encoder.value
-                    right_encoder_value = right_encoder.value
                     print('Value', left_encoder.value, right_encoder.value)
                     print('Speed', left_speed, right_speed)
         time.sleep(0.002)
