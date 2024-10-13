@@ -104,8 +104,8 @@ def move_robot():
                     # right_speed = pid_right(right_encoder.value)
                     # if motion == 'forward': pibot.value = (left_speed, right_speed)
                     # else: pibot.value = (-left_speed, -right_speed)
-                    print('Value', left_encoder.value, right_encoder.value)
-                    print('Speed', left_speed, right_speed)
+            print('Value', left_encoder.value, right_encoder.value)
+            print('Speed', left_speed, right_speed)
 
         else: ### EDIT THIS ONE
             ### if not using pid, just move the wheels as commanded
