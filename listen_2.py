@@ -137,11 +137,11 @@ def move_robot():
                                     right_encoder_value = right_encoder.value
                                 motion = "stop"
                             else:
-                                # if flag_new_pid_cycle:
-                                #     pid_right = PID(0.1,0.01, 0.0004, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
-                                #     flag_new_pid_cycle = False
-                                # pid_right.setpoint = left_encoder.value
-                                # right_speed = pid_right(right_encoder.value)
+                                if flag_new_pid_cycle:
+                                    pid_right = PID(0.1,0.01, 0.0004, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
+                                    flag_new_pid_cycle = False
+                                pid_right.setpoint = left_encoder.value
+                                right_speed = pid_right(right_encoder.value)
                                 pibot.value = (left_speed, right_speed)
                         else:
                             if right_encoder.value >= ticks:
@@ -151,11 +151,11 @@ def move_robot():
                                     right_encoder_value = right_encoder.value
                                 motion = "stop"
                             else:
-                                # if flag_new_pid_cycle:
-                                #     pid_left = PID(0.1, 0.01, 0.0004, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
-                                #     flag_new_pid_cycle = False
-                                # pid_left.setpoint = right_encoder.value
-                                # left_speed = pid_left(left_encoder.value)
+                                if flag_new_pid_cycle:
+                                    pid_left = PID(0.1, 0.01, 0.0004, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
+                                    flag_new_pid_cycle = False
+                                pid_left.setpoint = right_encoder.value
+                                left_speed = pid_left(left_encoder.value)
                                 pibot.value = (left_speed, right_speed)
 
                     else:
