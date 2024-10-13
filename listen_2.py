@@ -287,10 +287,13 @@ flask_thread = threading.Thread(target=run_flask)
 flask_thread.daemon = True
 flask_thread.start()
 
+global left_encoder_value, right_encoder_value
+left_encoder_value = 0
+right_encoder_value = 0
+
 try:
     while True:
         move_robot()
-        return_encoders()
 except KeyboardInterrupt:
     pibot.stop()
     picam2.stop()
