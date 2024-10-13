@@ -188,8 +188,8 @@ def move_robot():
                                 pibot.value = (-left_speed * 0.9, -right_speed * 0.6)         
                             else:
                                 pibot.value = (-left_speed, -right_speed)
-                    print('Value', left_encoder.value, right_encoder.value)
-                    print('Speed', left_speed, right_speed)
+        print('Value', left_encoder.value, right_encoder.value)
+        print('Speed', left_speed, right_speed)
         time.sleep(0.002)
 
 @app.route('/get_encoders', methods=['GET'])
