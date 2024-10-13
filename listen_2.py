@@ -1,6 +1,6 @@
 from simple_pid import PID
 from picamera2 import Picamera2
-from flask import Flask, Response, request
+from flask import Flask, Response, request, jsonify
 from gpiozero import Robot, Motor, DigitalInputDevice
 import pigpio
 import io
