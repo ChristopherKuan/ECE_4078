@@ -157,28 +157,29 @@ def move_robot():
                         left_encoder.reset()
                         right_encoder.reset()
                         flag_new_pid_cycle = True
-                            
-                else:
-                    left_speed, right_speed = abs(left_speed), abs(right_speed)
-                    if flag_new_pid_cycle:
-                        pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=right_speed)
-                        flag_new_pid_cycle = False
-                    pid_right.setpoint = left_encoder.value
-                    right_speed = pid_right(right_encoder.value)
-                    if motion == 'forward':
-                            if left_encoder.value <= 10 and right_encoder.value <= 10 :
-                                pibot.value = (left_speed * 0.9, right_speed * 0.6)         
-                            else:
-                                pibot.value = (left_speed, right_speed)
-                        #pibot.value = (left_speed, right_speed)
-                    else: 
-                            if left_encoder.value <= 10 and right_encoder.value <= 10 :
-                                pibot.value = (-left_speed * 0.9, -right_speed * 0.6)         
-                            else:
-                                pibot.value = (-left_speed, -right_speed)
-                    print('Value', left_encoder.value, right_encoder.value)
-                    print('Speed', left_speed, right_speed)
+
+                # else:
+                #     left_speed, right_speed = abs(left_speed), abs(right_speed)
+                #     if flag_new_pid_cycle:
+                #         pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=right_speed)
+                #         flag_new_pid_cycle = False
+                #     pid_right.setpoint = left_encoder.value
+                #     right_speed = pid_right(right_encoder.value)
+                #     if motion == 'forward':
+                #             if left_encoder.value <= 10 and right_encoder.value <= 10 :
+                #                 pibot.value = (left_speed * 0.9, right_speed * 0.6)         
+                #             else:
+                #                 pibot.value = (left_speed, right_speed)
+                #         #pibot.value = (left_speed, right_speed)
+                #     else: 
+                #             if left_encoder.value <= 10 and right_encoder.value <= 10 :
+                #                 pibot.value = (-left_speed * 0.9, -right_speed * 0.6)         
+                #             else:
+                #                 pibot.value = (-left_speed, -right_speed)
+                #     print('Value', left_encoder.value, right_encoder.value)
+                #     print('Speed', left_speed, right_speed)
         time.sleep(0.002)
+        return left_encoder.values, right_encoder.values
     
     
 # Receive confirmation whether to use pid or not to control the wheels (forward & backward)
