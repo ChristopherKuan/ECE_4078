@@ -8,9 +8,6 @@ import time
 import threading
 app = Flask(__name__)
 
-left_encoder_value = 0
-right_encoder_value = 0
-
 # Servo GPIO pin
 servo_pin = 12
 
@@ -64,7 +61,7 @@ class Encoder(object):
 
 # main function to control the robot wheels
 def move_robot():
-    global use_pid, left_speed, right_speed, motion, milestone, ticks
+    global use_pid, left_speed, right_speed, motion, milestone, ticks, left_encoder_value, right_encoder_value
     flag_new_pid_cycle = True
     while True:
         if milestone != 4:
@@ -122,8 +119,6 @@ def move_robot():
                 if (motion == 'stop') or (motion == 'turning') or (motion == ''):
                     if motion == 'stop':
                         pibot.value = (0, 0)
-                        left_encoder_value = left_encoder.value
-                        right_encoder_value = right_encoder.value
                         left_encoder.reset()
                         right_encoder.reset()
                         flag_new_pid_cycle = True
@@ -138,8 +133,6 @@ def move_robot():
                             if left_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
                                 motion = "stop"
-                                left_encoder_value = left_encoder.value
-                                right_encoder_value = right_encoder.value
                             else:
                                 # if flag_new_pid_cycle:
                                 #     pid_right = PID(0.1,0.01, 0.0004, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
@@ -150,8 +143,6 @@ def move_robot():
                         else:
                             if right_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
-                                left_encoder_value = left_encoder.value
-                                right_encoder_value = right_encoder.value
                                 motion = "stop"
                             else:
                                 # if flag_new_pid_cycle:
@@ -187,10 +178,13 @@ def move_robot():
                                 pibot.value = (-left_speed, -right_speed)
                     print('Value', left_encoder.value, right_encoder.value)
                     print('Speed', left_speed, right_speed)
+        left_encoder_value = left_encoder.value
+        right_encoder_value = right_encoder.value
         time.sleep(0.002)
 
 @app.route('/get_encoders', methods=['GET'])
 def return_encoders():
+    global left_encoder_value, right_encoder_value
     try:
         # Return the encoder values as a JSON response
         data = {
