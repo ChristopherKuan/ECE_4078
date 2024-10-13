@@ -132,8 +132,9 @@ def move_robot():
                         if dir == 'left':
                             if left_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
-                                left_encoder_value = left_encoder.value
-                                right_encoder_value = right_encoder.value
+                                if left_encoder_value == 0:
+                                    left_encoder_value = left_encoder.value
+                                    right_encoder_value = right_encoder.value
                                 motion = "stop"
                             else:
                                 # if flag_new_pid_cycle:
@@ -145,8 +146,9 @@ def move_robot():
                         else:
                             if right_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
-                                left_encoder_value = left_encoder.value
-                                right_encoder_value = right_encoder.value
+                                if left_encoder_value == 0:
+                                    left_encoder_value = left_encoder.value
+                                    right_encoder_value = right_encoder.value
                                 motion = "stop"
                             else:
                                 # if flag_new_pid_cycle:
@@ -172,8 +174,9 @@ def move_robot():
                     if motion == 'forward':
                             if left_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
-                                left_encoder_value = left_encoder.value
-                                right_encoder_value = right_encoder.value
+                                if left_encoder_value == 0:
+                                    left_encoder_value = left_encoder.value
+                                    right_encoder_value = right_encoder.value
                                 motion = "stop" 
                             elif left_encoder.value <= 10 and right_encoder.value <= 10 :
                                 pibot.value = (left_speed * 0.9, right_speed * 0.6)
@@ -198,6 +201,8 @@ def return_encoders():
             'left_encoder': left_encoder_value,
             'right_encoder': right_encoder_value
         }
+        left_encoder_value = 0
+        right_encoder_valuve = 0
         return jsonify(data), 200
     except Exception as e:
         return f"Error: {e}", 400 
