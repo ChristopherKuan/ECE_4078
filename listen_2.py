@@ -8,6 +8,9 @@ import time
 import threading
 app = Flask(__name__)
 
+left_encoder_value = 0
+right_encoder_value = 0
+
 # Servo GPIO pin
 servo_pin = 12
 
@@ -133,23 +136,27 @@ def move_robot():
                             if left_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
                                 motion = "stop"
+                                left_encoder_value = left_encoder.value
+                                right_encoder_value = right_encoder.value
                             else:
-                                # if flag_new_pid_cycle:
-                                #     pid_right = PID(0.1,0.01, 0.0004, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
-                                #     flag_new_pid_cycle = False
-                                # pid_right.setpoint = left_encoder.value
-                                # right_speed = pid_right(right_encoder.value)
+                                if flag_new_pid_cycle:
+                                    pid_right = PID(0.1,0.01, 0.0004, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
+                                    flag_new_pid_cycle = False
+                                pid_right.setpoint = left_encoder.value
+                                right_speed = pid_right(right_encoder.value)
                                 pibot.value = (left_speed, right_speed)
                         else:
                             if right_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
+                                left_encoder_value = left_encoder.value
+                                right_encoder_value = right_encoder.value
                                 motion = "stop"
                             else:
-                                # if flag_new_pid_cycle:
-                                #     pid_left = PID(0.1, 0.01, 0.0004, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
-                                #     flag_new_pid_cycle = False
-                                # pid_left.setpoint = right_encoder.value
-                                # left_speed = pid_left(left_encoder.value)
+                                if flag_new_pid_cycle:
+                                    pid_left = PID(0.1, 0.01, 0.0004, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
+                                    flag_new_pid_cycle = False
+                                pid_left.setpoint = right_encoder.value
+                                left_speed = pid_left(left_encoder.value)
                                 pibot.value = (left_speed, right_speed)
 
                     else:
@@ -158,26 +165,26 @@ def move_robot():
                         right_encoder.reset()
                         flag_new_pid_cycle = True
 
-                # else:
-                #     left_speed, right_speed = abs(left_speed), abs(right_speed)
-                #     if flag_new_pid_cycle:
-                #         pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=right_speed)
-                #         flag_new_pid_cycle = False
-                #     pid_right.setpoint = left_encoder.value
-                #     right_speed = pid_right(right_encoder.value)
-                #     if motion == 'forward':
-                #             if left_encoder.value <= 10 and right_encoder.value <= 10 :
-                #                 pibot.value = (left_speed * 0.9, right_speed * 0.6)         
-                #             else:
-                #                 pibot.value = (left_speed, right_speed)
-                #         #pibot.value = (left_speed, right_speed)
-                #     else: 
-                #             if left_encoder.value <= 10 and right_encoder.value <= 10 :
-                #                 pibot.value = (-left_speed * 0.9, -right_speed * 0.6)         
-                #             else:
-                #                 pibot.value = (-left_speed, -right_speed)
-                #     print('Value', left_encoder.value, right_encoder.value)
-                #     print('Speed', left_speed, right_speed)
+                else:
+                    left_speed, right_speed = abs(left_speed), abs(right_speed)
+                    if flag_new_pid_cycle:
+                        pid_right = PID(kp, ki, kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=right_speed)
+                        flag_new_pid_cycle = False
+                    pid_right.setpoint = left_encoder.value
+                    right_speed = pid_right(right_encoder.value)
+                    if motion == 'forward':
+                            if left_encoder.value <= 10 and right_encoder.value <= 10 :
+                                pibot.value = (left_speed * 0.9, right_speed * 0.6)         
+                            else:
+                                pibot.value = (left_speed, right_speed)
+                        #pibot.value = (left_speed, right_speed)
+                    else: 
+                            if left_encoder.value <= 10 and right_encoder.value <= 10 :
+                                pibot.value = (-left_speed * 0.9, -right_speed * 0.6)         
+                            else:
+                                pibot.value = (-left_speed, -right_speed)
+                    print('Value', left_encoder.value, right_encoder.value)
+                    print('Speed', left_speed, right_speed)
         time.sleep(0.002)
 
 @app.route('/get_encoders', methods=['GET'])
