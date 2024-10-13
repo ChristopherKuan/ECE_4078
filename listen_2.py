@@ -192,8 +192,8 @@ def return_encoders():
     try:
         # Return the encoder values as a JSON response
         data = {
-            'left_encoder': left_encoder.value,
-            'right_encoder': right_encoder.value
+            'left_encoder': left_encoder_value,
+            'right_encoder': right_encoder_value
         }
         return jsonify(data), 200
     except Exception as e:
