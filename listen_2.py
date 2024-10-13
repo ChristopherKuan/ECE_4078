@@ -179,7 +179,10 @@ def move_robot():
                 #     print('Value', left_encoder.value, right_encoder.value)
                 #     print('Speed', left_speed, right_speed)
         time.sleep(0.002)
-        return left_encoder.values, right_encoder.values
+        try:
+            return jsonify(left_encoder.values, right_encoder.values),200
+        except Exception as e:
+            return f"Error: {e}", 400
     
     
 # Receive confirmation whether to use pid or not to control the wheels (forward & backward)
