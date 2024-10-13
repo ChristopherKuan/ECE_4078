@@ -132,6 +132,8 @@ def move_robot():
                         if dir == 'left':
                             if left_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
+                                left_encoder_value = left_encoder.value
+                                right_encoder_value = right_encoder.value
                                 motion = "stop"
                             else:
                                 # if flag_new_pid_cycle:
@@ -143,6 +145,8 @@ def move_robot():
                         else:
                             if right_encoder.value >= ticks:
                                 pibot.value = (-0.02, -0.02)
+                                left_encoder_value = left_encoder.value
+                                right_encoder_value = right_encoder.value
                                 motion = "stop"
                             else:
                                 # if flag_new_pid_cycle:
@@ -176,10 +180,10 @@ def move_robot():
                                 pibot.value = (-left_speed * 0.9, -right_speed * 0.6)         
                             else:
                                 pibot.value = (-left_speed, -right_speed)
+                    left_encoder_value = left_encoder.value
+                    right_encoder_value = right_encoder.value
                     print('Value', left_encoder.value, right_encoder.value)
                     print('Speed', left_speed, right_speed)
-        left_encoder_value = left_encoder.value
-        right_encoder_value = right_encoder.value
         time.sleep(0.002)
 
 @app.route('/get_encoders', methods=['GET'])
@@ -278,6 +282,7 @@ flask_thread.start()
 try:
     while True:
         move_robot()
+        return_encoders()
 except KeyboardInterrupt:
     pibot.stop()
     picam2.stop()
