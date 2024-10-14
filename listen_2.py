@@ -139,7 +139,7 @@ def move_robot():
                                 motion = "stop"
                             else:
                                 if flag_new_pid_cycle:
-                                    pid_right = PID(0.35,0.05,0.0001, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
+                                    pid_right = PID(kp,ki,kd, setpoint=left_encoder.value, output_limits=(0,1), starting_output=0)
                                     flag_new_pid_cycle = False
                                 pid_right.setpoint = left_encoder.value
                                 right_speed = pid_right(right_encoder.value)
@@ -153,7 +153,7 @@ def move_robot():
                                 motion = "stop"
                             else:
                                 if flag_new_pid_cycle:
-                                    pid_left = PID(0.35,0.05,0.0001, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
+                                    pid_left = PID(kp,ki,kd, setpoint=right_encoder.value, output_limits=(0,1), starting_output=0)
                                     flag_new_pid_cycle = False
                                 pid_left.setpoint = right_encoder.value
                                 left_speed = pid_left(left_encoder.value)
