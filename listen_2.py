@@ -135,6 +135,8 @@ def move_robot():
                                 if left_encoder_value == 0:
                                     left_encoder_value = left_encoder.value
                                     right_encoder_value = right_encoder.value
+                                left_encoder.reset()
+                                right_encoder.reset()
                                 motion = "stop"
                             else:
                                 # if flag_new_pid_cycle:
@@ -149,6 +151,8 @@ def move_robot():
                                 if left_encoder_value == 0:
                                     left_encoder_value = left_encoder.value
                                     right_encoder_value = right_encoder.value
+                                left_encoder.reset()
+                                right_encoder.reset()
                                 motion = "stop"
                             else:
                                 # if flag_new_pid_cycle:
@@ -177,6 +181,8 @@ def move_robot():
                                 if left_encoder_value == 0:
                                     left_encoder_value = left_encoder.value
                                     right_encoder_value = right_encoder.value
+                                left_encoder.reset()
+                                right_encoder.reset()
                                 motion = "stop" 
                             elif left_encoder.value <= 10 and right_encoder.value <= 10 :
                                 pibot.value = (left_speed * 0.9, right_speed * 0.6)
